@@ -36,14 +36,13 @@ public class Invoice {
     private List<Medication> medications;
 
     //MODIFICACIONES PARA LA TAREA
-    @ElementCollection 
+    @ElementCollection
     @CollectionTable(
-        name = "invoice_additional_charges",
+        name = "invoice_additional_charges", 
         joinColumns = @JoinColumn(name = "invoice_id")
     )
-
-    private List<AdditionalCharge> additionalCharges; //PASA A LISTA.
-
+    private List<AdditionalCharge> additionalCharges;
+ 
     private Double totalCost;
 
 
