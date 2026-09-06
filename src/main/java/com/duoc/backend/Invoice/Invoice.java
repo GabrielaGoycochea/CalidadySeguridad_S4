@@ -96,12 +96,12 @@ public class Invoice {
         this.medications = medications;
     }
 
-    public Double getAdditionalCharges() {
+   public List<AdditionalCharge> getAdditionalCharges() {
         return additionalCharges;
     }
 
-    public void setAdditionalCharges(Double additionalCharges) {
-        this.additionalCharges = additionalCharges;
+    public void setAdditionalCharges(List<AdditionalCharge> additionalCharges) {
+       this.additionalCharges = additionalCharges;
     }
 
     public Double getTotalCost() {
