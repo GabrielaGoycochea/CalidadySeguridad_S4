@@ -55,19 +55,27 @@ public class InvoiceService {
             throw new IllegalArgumentException("Algunos servicios no existen en la base de datos.");
         }
 
-        // Sumar costos de servicios y medicamentos
+        //SE GENERA LISTA DE CARGOS ADICIONALES
+        
+        List<AdditionalCharge> additionalCharges = invoice.getAdditionalCharges();
+        if (additionalCharges == null) {
+            additionalCharges = Collections.emptyList();
+        }
+
+        // Sumar costos de servicios y medicamentos - SE AGREGA EL CARGO ADICIONAL
         double totalCareCost = validCares.stream()
                 .mapToDouble(Care::getCost)
                 .sum();
-
+ 
         double totalMedicationCost = validMedications.stream()
                 .mapToDouble(Medication::getCost)
                 .sum();
-
-        // Sumar cargos adicionales (controlando null)
-        double extra = (invoice.getAdditionalCharges() != null) ? invoice.getAdditionalCharges() : 0.0;
-
-        invoice.setTotalCost(totalCareCost + totalMedicationCost + extra);
+ 
+        double totalAdditionalCost = additionalCharges.stream()
+                .mapToDouble(AdditionalCharge::getCost)
+                .sum();
+ 
+        invoice.setTotalCost(totalCareCost + totalMedicationCost + totalAdditionalCost);
 
         return invoiceRepository.save(invoice);
     }

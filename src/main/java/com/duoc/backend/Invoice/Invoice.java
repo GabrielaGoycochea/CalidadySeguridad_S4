@@ -35,8 +35,17 @@ public class Invoice {
     )
     private List<Medication> medications;
 
-    private Double additionalCharges;
+    //MODIFICACIONES PARA LA TAREA
+    @ElementCollection 
+    @CollectionTable(
+        name = "invoice_additional_charges",
+        joinColumns = @JoinColumn(name = "invoice_id")
+    )
+
+    private List<AdditionalCharge> additionalCharges; //PASA A LISTA.
+
     private Double totalCost;
+
 
     public Invoice() {}
 
