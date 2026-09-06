@@ -4,33 +4,34 @@ package com.duoc.backend.Invoice;
 
 import jakarta.persistence.Embeddable;
 
-@Embeddable
+@@Embeddable
 public class AdditionalCharge {
-
+ 
     private String description;
     private Double cost;
-
+ 
     public AdditionalCharge() {
     }
-
+ 
     public AdditionalCharge(String description, Double cost) {
         this.description = description;
         this.cost = cost;
     }
-
+ 
     public String getDescription() {
         return description;
     }
-
+ 
     public void setDescription(String description) {
         this.description = description;
     }
-
+ 
     public Double getCost() {
         return cost;
     }
-
+ 
     public void setCost(Double cost) {
         this.cost = cost;
     }
 }
+ 
