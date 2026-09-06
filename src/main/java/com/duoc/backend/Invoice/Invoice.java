@@ -10,9 +10,11 @@ import java.util.List;
 
 @Entity
 public class Invoice {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String patientName;
     private LocalDate date;
     private LocalTime time;
@@ -25,7 +27,6 @@ public class Invoice {
     )
     private List<Care> cares;
 
-
     @ManyToMany
     @JoinTable(
         name = "invoice_medications",
@@ -34,10 +35,11 @@ public class Invoice {
     )
     private List<Medication> medications;
 
-
+    private Double additionalCharges;
     private Double totalCost;
 
-    // Getters and Setters
+    public Invoice() {}
+
     public Long getId() {
         return id;
     }
@@ -84,6 +86,14 @@ public class Invoice {
 
     public void setMedications(List<Medication> medications) {
         this.medications = medications;
+    }
+
+    public Double getAdditionalCharges() {
+        return additionalCharges;
+    }
+
+    public void setAdditionalCharges(Double additionalCharges) {
+        this.additionalCharges = additionalCharges;
     }
 
     public Double getTotalCost() {

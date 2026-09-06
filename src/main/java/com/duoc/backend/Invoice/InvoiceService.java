@@ -33,27 +33,29 @@ public class InvoiceService {
     }
 
     public Invoice saveInvoice(Invoice invoice) {
-        // Validar que los medicamentos existen
+        // Validar que los medicamentos existan en la BD
         List<Medication> validMedications = StreamSupport.stream(
                 medicationRepository.findAllById(
                         invoice.getMedications().stream().map(Medication::getId).collect(Collectors.toList())
                 ).spliterator(), false
         ).collect(Collectors.toList());
+
         if (validMedications.size() != invoice.getMedications().size()) {
             throw new IllegalArgumentException("Algunos medicamentos no existen en la base de datos.");
         }
 
-        // Validar que los servicios existen
+        // Validar que los servicios/cuidados existan en la BD
         List<Care> validCares = StreamSupport.stream(
                 careRepository.findAllById(
                         invoice.getCares().stream().map(Care::getId).collect(Collectors.toList())
                 ).spliterator(), false
         ).collect(Collectors.toList());
+
         if (validCares.size() != invoice.getCares().size()) {
             throw new IllegalArgumentException("Algunos servicios no existen en la base de datos.");
         }
 
-        // Calcular el costo total basado en los servicios y medicamentos asociados
+        // Sumar costos de servicios y medicamentos
         double totalCareCost = validCares.stream()
                 .mapToDouble(Care::getCost)
                 .sum();
@@ -62,9 +64,11 @@ public class InvoiceService {
                 .mapToDouble(Medication::getCost)
                 .sum();
 
-        invoice.setTotalCost(totalCareCost + totalMedicationCost);
+        // Sumar cargos adicionales (controlando null)
+        double extra = (invoice.getAdditionalCharges() != null) ? invoice.getAdditionalCharges() : 0.0;
 
-        // Guardar la factura en el repositorio
+        invoice.setTotalCost(totalCareCost + totalMedicationCost + extra);
+
         return invoiceRepository.save(invoice);
     }
 
